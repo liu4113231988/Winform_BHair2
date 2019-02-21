@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using XLuSharpLibrary.DbAccess;
@@ -89,7 +90,7 @@ namespace BHair.Business.BaseData
         {
             string strSql = "select cid from card where cname=@cname";
             DataTable objDataTable = new DataTable();
-            SqlParameter[] cmdParameter = { new SqlParameter("@cname", name) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@cname", name) };
             new SQLHelper().ExecuteSql(strSql, cmdParameter, out objDataTable);
             if (objDataTable.Rows.Count > 0)
             {
@@ -127,7 +128,7 @@ namespace BHair.Business.BaseData
         public int InsertCard()
         {
             string strSql = "insert into card(cname,cdiscount,cmoney) values(@cname,@cdiscount,@cmoney)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@cname", this.CardName), new SqlParameter("@cdiscount", this.Discount), new SqlParameter("@cmoney", this.Money) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@cname", this.CardName), new MySqlParameter("@cdiscount", this.Discount), new MySqlParameter("@cmoney", this.Money) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -136,7 +137,7 @@ namespace BHair.Business.BaseData
         public int UpdateCard()
         {
             string strSql = "update card set cname=@cname,cdiscount=@cdiscount,cmoney=@cmoney where cid=@cid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@cname", this.CardName), new SqlParameter("@cdiscount", this.Discount), new SqlParameter("@cmoney", this.Money), new SqlParameter("@cid", this.CardId) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@cname", this.CardName), new MySqlParameter("@cdiscount", this.Discount), new MySqlParameter("@cmoney", this.Money), new MySqlParameter("@cid", this.CardId) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

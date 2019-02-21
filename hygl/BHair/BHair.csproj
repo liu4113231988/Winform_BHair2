@@ -51,10 +51,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\DLL\WinFormsUI.Docking.dll</HintPath>
     </Reference>
-    <Reference Include="XLuSharpLibrary, Version=1.2.4368.24409, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\XLuSharpLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\frmCard.cs">
@@ -468,6 +464,10 @@
     <ProjectReference Include="..\Business\Business.csproj">
       <Project>{778265EE-4F26-4739-A390-AE5510CF9C81}</Project>
       <Name>Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XLuSharpLibrary\XLuSharpLibrary.csproj">
+      <Project>{f7eefa21-9fb8-4634-90dd-7294c4db2e50}</Project>
+      <Name>XLuSharpLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

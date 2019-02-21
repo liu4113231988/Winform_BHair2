@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,14 +22,19 @@ namespace BHair.Business.BaseData
         public Post(int pid)
         {
             string strSql = "select * from post where pid=" + pid;
-            DataRow objRow = StaticValue.SelectTable(strSql).Rows[0];
-            this.ID = int.Parse(objRow["pid"].ToString());
-            this.Name = objRow["pname"].ToString();
-            this.Readme = objRow["preadme"].ToString();
-            this.Mode = int.Parse(objRow["pmode"].ToString());
-            this.Sort = int.Parse(objRow["psort"].ToString());
-            this.Salary = decimal.Parse(objRow["psalary"].ToString());
-            this.Bonus = double.Parse(objRow["pbonus"].ToString());
+            DataTable dt = StaticValue.SelectTable(strSql);
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                DataRow objRow = dt.Rows[0];
+                this.ID = int.Parse(objRow["pid"].ToString());
+                this.Name = objRow["pname"].ToString();
+                this.Readme = objRow["preadme"].ToString();
+                this.Mode = int.Parse(objRow["pmode"].ToString());
+                this.Sort = int.Parse(objRow["psort"].ToString());
+                this.Salary = decimal.Parse(objRow["psalary"].ToString());
+                this.Bonus = double.Parse(objRow["pbonus"].ToString());
+            }
+            
         }
 
         #endregion
@@ -167,7 +173,7 @@ namespace BHair.Business.BaseData
         public int InsertPost()
         {
             string strSql = "insert into post(pname,pbonus,preadme,psort,psalary,pmode) values(@pname,@pbonus,@preadme,@psort,@psalary,@pmode)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pname", this.Name), new SqlParameter("@pbonus", this.Bonus), new SqlParameter("@preadme", this.Readme), new SqlParameter("@psort", this.Sort), new SqlParameter("@psalary", this.Salary), new SqlParameter("@pmode", this.Mode) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pname", this.Name), new MySqlParameter("@pbonus", this.Bonus), new MySqlParameter("@preadme", this.Readme), new MySqlParameter("@psort", this.Sort), new MySqlParameter("@psalary", this.Salary), new MySqlParameter("@pmode", this.Mode) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -176,7 +182,7 @@ namespace BHair.Business.BaseData
         public int UpdatePost()
         {
             string strSql = "update post set pname=@pname,pbonus=@pbonus,preadme=@preadme,psort=@psort,psalary=@psalary,pmode=@pmode where pid=@pid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pname", this.Name), new SqlParameter("@pbonus", this.Bonus), new SqlParameter("@preadme", this.Readme), new SqlParameter("@psort", this.Sort), new SqlParameter("@psalary", this.Salary), new SqlParameter("@pmode", this.Mode), new SqlParameter("@pid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pname", this.Name), new MySqlParameter("@pbonus", this.Bonus), new MySqlParameter("@preadme", this.Readme), new MySqlParameter("@psort", this.Sort), new MySqlParameter("@psalary", this.Salary), new MySqlParameter("@pmode", this.Mode), new MySqlParameter("@pid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

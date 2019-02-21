@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using XLuSharpLibrary.DbAccess;
 using BHair.Business.BaseData;
+using MySql.Data.MySqlClient;
 
 namespace BHair.Business.Table
 {
@@ -115,13 +116,13 @@ namespace BHair.Business.Table
         public int Insert()
         {
             string strSql = "insert into emp_money(emmoney,emtype,emremark,emtime,empid) values(@emmoney,@emtype,@emremark,@emtime,@empid)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@emmoney", this.Money), new SqlParameter("@emtype", this.Type), new SqlParameter("@emremark", this.Remark), new SqlParameter("@emtime", this.Date), new SqlParameter("@empid", this.EmpId) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@emmoney", this.Money), new MySqlParameter("@emtype", this.Type), new MySqlParameter("@emremark", this.Remark), new MySqlParameter("@emtime", this.Date), new MySqlParameter("@empid", this.EmpId) };
             return this.objSQLHelper.ExecuteSql(strSql, cmdParameter);
         }
 
         public List<EmpMoney> SelectList(int empid, int year, int month)
         {
-            string strSql = "select * from emp_money where empid=" + empid + " and datepart(year,emtime)=" + year + " and datepart(month,emtime)=" + month;
+            string strSql = "select * from emp_money where empid=" + empid + " and YEAR(emtime)=" + year + " and MONTH(emtime)=" + month;
             DataTable objDataTable = StaticValue.SelectTable(strSql);
             List<EmpMoney> lstEmpMoney = new List<EmpMoney>();
             foreach (DataRow objRow in objDataTable.Rows)
@@ -146,7 +147,7 @@ namespace BHair.Business.Table
         /// <returns></returns>
         public decimal GetMoney(int empid, int year, int month, int type)
         {
-            string strSql = "select sum(emmoney) from emp_money where empid=" + empid + " and emtype=" + type + " and datepart(year,emtime)=" + year + " and datepart(month,emtime)=" + month;
+            string strSql = "select sum(emmoney) from emp_money where empid=" + empid + " and emtype=" + type + " and YEAR(emtime)=" + year + " and MONTH(emtime)=" + month;
             try
             {
                 return decimal.Parse(StaticValue.SelectTable(strSql).Rows[0][0].ToString());
@@ -158,7 +159,7 @@ namespace BHair.Business.Table
         public int Update()
         {
             string strSql = "update emp_money set emmoney=@emmoney,emtype=@emtype,emremark=@emremark,@emtime=@emtime,empid=@empid where emid=@id";
-            SqlParameter[] cmdParameter = { new SqlParameter("@emmoney", this.Money), new SqlParameter("@emtype", this.Type), new SqlParameter("@emremark", this.Remark), new SqlParameter("@emtime", this.Date), new SqlParameter("@empid", this.EmpId), new SqlParameter("@id", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@emmoney", this.Money), new MySqlParameter("@emtype", this.Type), new MySqlParameter("@emremark", this.Remark), new MySqlParameter("@emtime", this.Date), new MySqlParameter("@empid", this.EmpId), new MySqlParameter("@id", this.ID) };
             return this.objSQLHelper.ExecuteSql(strSql, cmdParameter);
         }
 

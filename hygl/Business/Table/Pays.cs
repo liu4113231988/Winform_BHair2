@@ -6,6 +6,7 @@ using System.Text;
 using XLuSharpLibrary.DbAccess;
 using XLuSharpLibrary.CommonFunction;
 using BHair.Business.BaseData;
+using MySql.Data.MySqlClient;
 
 namespace BHair.Business.Table
 {
@@ -291,7 +292,7 @@ namespace BHair.Business.Table
         public string ExistsPayCode(string payid)
         {
             string strSql = "select * from pays where pid=@pid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pid", payid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pid", payid) };
             DataTable objDataTable = new DataTable();
             new SQLHelper().ExecuteSql(strSql, cmdParameter, out objDataTable);
             if (objDataTable.Rows.Count > 0)
@@ -339,15 +340,15 @@ namespace BHair.Business.Table
             }
             if (year > 0)
             {
-                strSql += " and datepart(year,pdate)=" + year;
+                strSql += " and YEAR(pdate)=" + year;
             }
             if (month > 0)
             {
-                strSql += " and datepart(month,pdate)=" + month;
+                strSql += " and MONTH(pdate)=" + month;
             }
             if (day > 0)
             {
-                strSql += " and datepart(day,pdate)=" + day;
+                strSql += " and DAYOFMONTH(pdate)=" + day;
             }
             DataTable objDataTable = StaticValue.SelectTable(strSql);
             try
@@ -364,9 +365,9 @@ namespace BHair.Business.Table
         /// <returns></returns>
         public List<Pays> SelectListForEmployee(int empid, int year, int month)
         {
-            string strSql = "select * from pays where (datepart(year, pdate)=@year and datepart(month, pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid) and pstatus=1";
+            string strSql = "select * from pays where (YEAR(pdate)=@year and MONTH(pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid) and pstatus=1";
             strSql += " order by pdate";
-            SqlParameter[] cmdParameter = { new SqlParameter("@year", year), new SqlParameter("@month", month), new SqlParameter("@empid", empid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@year", year), new MySqlParameter("@month", month), new MySqlParameter("@empid", empid) };
             DataTable objDataTable = new DataTable();
             new SQLHelper().ExecuteSql(strSql, cmdParameter, out objDataTable);
             List<Pays> lstPay = new List<Pays>();
@@ -384,9 +385,9 @@ namespace BHair.Business.Table
         /// <returns></returns>
         public int GetCountForEmployee(int empid, int year, int month)
         {
-            string strSql = "select count(*) from pays where (datepart(year, pdate)=@year and datepart(month, pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid)";
+            string strSql = "select count(*) from pays where (YEAR(pdate)=@year and MONTH(pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid)";
             DataTable objDataTable = new DataTable();
-            SqlParameter[] cmdParameter = { new SqlParameter("@year", year), new SqlParameter("@month", month), new SqlParameter("@empid", empid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@year", year), new MySqlParameter("@month", month), new MySqlParameter("@empid", empid) };
             this.objSQLHelper.ExecuteSql(strSql, cmdParameter, out objDataTable);
             return int.Parse(objDataTable.Rows[0][0].ToString());
         }
@@ -396,9 +397,9 @@ namespace BHair.Business.Table
         /// <returns></returns>
         public decimal GetMoneyForEmployee(int empid, int year, int month)
         {
-            string strSql = "select sum(pmoney) from pays where (datepart(year, pdate)=@year and datepart(month, pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid)";
+            string strSql = "select sum(pmoney) from pays where (YEAR(pdate)=@year and MONTH(pdate)=@month) and (peid1=@empid or peid2=@empid or peid3=@empid)";
             DataTable objDataTable = new DataTable();
-            SqlParameter[] cmdParameter = { new SqlParameter("@year", year), new SqlParameter("@month", month), new SqlParameter("@empid", empid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@year", year), new MySqlParameter("@month", month), new MySqlParameter("@empid", empid) };
             this.objSQLHelper.ExecuteSql(strSql, cmdParameter, out objDataTable);
             if (new Employee(empid).Post.Mode == 1)//发型师业绩
             {
@@ -447,15 +448,15 @@ namespace BHair.Business.Table
             }
             if (year > 0)
             {
-                strSql += " and datepart(year, pdate)=" + year;
+                strSql += " and YEAR(pdate)=" + year;
             }
             if (month > 0)
             {
-                strSql += " and datepart(month, pdate)=" + month;
+                strSql += " and MONTH(pdate)=" + month;
             }
             if (day > 0)
             {
-                strSql += " and datepart(day, pdate)=" + day;
+                strSql += " and DAYOFMONTH(pdate)=" + day;
             }
             if (type != null)
             {
@@ -481,7 +482,7 @@ namespace BHair.Business.Table
         public int InsertPay()
         {
             string strSql = "insert into pays(pid,pmid,peid1,peid2,peid3,pmoney,premark,pdate,pstatus,ptype) values(@pid,@pmid,@peid1,@peid2,@peid3,@pmoney,@premark,@pdate,0,0)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pid", this.PayID), new SqlParameter("@pmid", this.MemberId), new SqlParameter("@peid1", this.EmpID1), new SqlParameter("@peid2", this.EmpID2), new SqlParameter("@peid3", this.EmpID3), new SqlParameter("@pmoney", this.Money), new SqlParameter("@premark", this.Remark), new SqlParameter("@pdate", this.PayDate) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pid", this.PayID), new MySqlParameter("@pmid", this.MemberId), new MySqlParameter("@peid1", this.EmpID1), new MySqlParameter("@peid2", this.EmpID2), new MySqlParameter("@peid3", this.EmpID3), new MySqlParameter("@pmoney", this.Money), new MySqlParameter("@premark", this.Remark), new MySqlParameter("@pdate", this.PayDate) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -490,7 +491,7 @@ namespace BHair.Business.Table
         public int UpdatePay()
         {
             string strSql = "update pays set pmid=@pmid,peid1=@peid1,peid2=@peid2,peid3=@peid3,pmoney=@pmoney,premark=@premark,pdate=@pdate where pid=@ID";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pmid", this.MemberId), new SqlParameter("@peid1", this.EmpID1), new SqlParameter("@peid2", this.EmpID2), new SqlParameter("@peid3", this.EmpID3), new SqlParameter("@pmoney", this.Money), new SqlParameter("@premark", this.Remark), new SqlParameter("@pdate", this.PayDate), new SqlParameter("@ID", this.PayID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pmid", this.MemberId), new MySqlParameter("@peid1", this.EmpID1), new MySqlParameter("@peid2", this.EmpID2), new MySqlParameter("@peid3", this.EmpID3), new MySqlParameter("@pmoney", this.Money), new MySqlParameter("@premark", this.Remark), new MySqlParameter("@pdate", this.PayDate), new MySqlParameter("@ID", this.PayID) };
             return this.objSQLHelper.ExecuteSql(strSql, cmdParameter);
         }
 
@@ -509,7 +510,7 @@ namespace BHair.Business.Table
         public int UpdatePayRemark()
         {
             string strSql = "update pays set premark=@Remark where pid=@ID";
-            SqlParameter[] cmdParameter = { new SqlParameter("@Remark", this.Remark), new SqlParameter("@ID", this.PayID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@Remark", this.Remark), new MySqlParameter("@ID", this.PayID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -518,7 +519,7 @@ namespace BHair.Business.Table
         public int UpdatePaysOK()
         {
             string strSql = "update pays set pcash=@pcash,pzero=@pzero,ptype=@ptype,premark=@premark,pstatus=1 where pid=@pid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pcash", this.Cash), new SqlParameter("@pzero", this.Zero), new SqlParameter("@ptype", this.PayType), new SqlParameter("@premark", this.Remark), new SqlParameter("@pid", this.PayID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pcash", this.Cash), new MySqlParameter("@pzero", this.Zero), new MySqlParameter("@ptype", this.PayType), new MySqlParameter("@premark", this.Remark), new MySqlParameter("@pid", this.PayID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -529,7 +530,7 @@ namespace BHair.Business.Table
         public int UpdateMoney(string payid, decimal money)
         {
             string strSql = "update pays set pmoney=@pmoney where pid=@pid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pid", payid), new SqlParameter("@pmoney", money) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pid", payid), new MySqlParameter("@pmoney", money) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

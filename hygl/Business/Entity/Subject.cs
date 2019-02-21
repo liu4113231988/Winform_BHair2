@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -139,7 +140,7 @@ namespace BHair.Business.BaseData
         public int InsertSubject()
         {
             string strSql = "insert into subject(sname,stype,sreadme,senabled) values(@sname,@stype,@sreadme,0); select @@identity";
-            SqlParameter[] cmdParameter = { new SqlParameter("@sname", this.Name), new SqlParameter("@stype", this.Type), new SqlParameter("@sreadme", this.Readme) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@sname", this.Name), new MySqlParameter("@stype", this.Type), new MySqlParameter("@sreadme", this.Readme) };
             DataTable objDataTable = new DataTable();
             try
             {
@@ -156,7 +157,7 @@ namespace BHair.Business.BaseData
         public int UpdateSubject()
         {
             string strSql = "update subject set sname=@sname,stype=@stype,sreadme=@sreadme where sid=@sid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@sname", this.Name), new SqlParameter("@stype", this.Type), new SqlParameter("@sreadme", this.Readme), new SqlParameter("@sid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@sname", this.Name), new MySqlParameter("@stype", this.Type), new MySqlParameter("@sreadme", this.Readme), new MySqlParameter("@sid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -165,7 +166,7 @@ namespace BHair.Business.BaseData
         public int UpdateStatus()
         {
             string strSql = "update subject set senabled=@senabled where sid=@sid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@senabled", this.IsEnabled), new SqlParameter("@sid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@senabled", this.IsEnabled), new MySqlParameter("@sid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

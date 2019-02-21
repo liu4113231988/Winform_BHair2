@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using XLuSharpLibrary.DbAccess;
 using BHair.Business.Table;
+using MySql.Data.MySqlClient;
 
 namespace BHair.Business.BaseData
 {
@@ -313,7 +314,7 @@ namespace BHair.Business.BaseData
         public string ExistsMemberCard(string mid)
         {
             string strSql = "select * from member where mid=@mid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@mid", mid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@mid", mid) };
             DataTable objDataTable = new DataTable();
             new SQLHelper().ExecuteSql(strSql, cmdParameter, out objDataTable);
             if (objDataTable.Rows.Count > 0)
@@ -331,7 +332,7 @@ namespace BHair.Business.BaseData
         {
             //优先显示生日会员
             //string strSql1 = "select *,(select sum(dmoney) from deposit where dmid=member.mid) as sumdep,(select sum(pmoney) from pays where pmid=member.mid and ptype=1) as sumpay from member where (datepart(month,getdate())<=mmonth and datepart(day,getdate())<=mday)";
-            string strSql1 = "select * from member where (datepart(month,getdate())<=mmonth and datepart(day,getdate())<=mday)";
+            string strSql1 = "select * from member where (MONTH(CURDATE())<=mmonth and DAYOFMONTH(CURDATE())<=mday)";
             string strSql2 = "select * from member where 1=1";
             if (membertext != "")
             {
@@ -423,22 +424,22 @@ namespace BHair.Business.BaseData
         public int InsertMember()
         {
             string strSql = "insert member(mid,mname,mstatus,mcid,mpass,mremark,msex,mmonth,mday,mphone,maddress,mother,mjoin,midcard) values(@mid,@mname,@mstatus,@mcid,@mpass,@mremark,@msex,@mmonth,@mday,@mphone,@maddress,@mother,@mjoin,@midcard)";
-            SqlParameter[] cmdParameter =
+            MySqlParameter[] cmdParameter =
                 {
-                    new SqlParameter("@mid", this.ID),
-                    new SqlParameter("@mname", this.Name),
-                    new SqlParameter("@mstatus", this.Status),
-                    new SqlParameter("@mcid", this.CardID),
-                    new SqlParameter("@mpass", this.Password),
-                    new SqlParameter("@mremark", this.Remark),
-                    new SqlParameter("@msex", this.Sex),
-                    new SqlParameter("@mmonth", this.Month),
-                    new SqlParameter("@mday", this.Day),
-                    new SqlParameter("@mphone", this.Phone),
-                    new SqlParameter("@maddress", this.Address),
-                    new SqlParameter("@mother", this.Other),
-                    new SqlParameter("@mjoin", this.JoinDate),
-                    new SqlParameter("@midcard", this.IDCard)
+                    new MySqlParameter("@mid", this.ID),
+                    new MySqlParameter("@mname", this.Name),
+                    new MySqlParameter("@mstatus", this.Status),
+                    new MySqlParameter("@mcid", this.CardID),
+                    new MySqlParameter("@mpass", this.Password),
+                    new MySqlParameter("@mremark", this.Remark),
+                    new MySqlParameter("@msex", this.Sex),
+                    new MySqlParameter("@mmonth", this.Month),
+                    new MySqlParameter("@mday", this.Day),
+                    new MySqlParameter("@mphone", this.Phone),
+                    new MySqlParameter("@maddress", this.Address),
+                    new MySqlParameter("@mother", this.Other),
+                    new MySqlParameter("@mjoin", this.JoinDate),
+                    new MySqlParameter("@midcard", this.IDCard)
                 };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
@@ -448,22 +449,22 @@ namespace BHair.Business.BaseData
         public int UpdateMember()
         {
             string strSql = "update member set mname=@mname,mstatus=@mstatus,mcid=@mcid,mpass=@mpass,mremark=@mremark,msex=@msex,mmonth=@mmonth,mday=@mday,mphone=@mphone,maddress=@maddress,mother=@mother,midcard=@midcard where mid=@mid";
-            SqlParameter[] cmdParameter =
+            MySqlParameter[] cmdParameter =
                 {
-                    new SqlParameter("@mid", this.ID),
-                    new SqlParameter("@mname", this.Name),
-                    new SqlParameter("@mstatus", this.Status),
-                    new SqlParameter("@mcid", this.CardID),
-                    new SqlParameter("@mpass", this.Password),
-                    new SqlParameter("@mremark", this.Remark),
-                    new SqlParameter("@msex", this.Sex),
-                    new SqlParameter("@mmonth", this.Month),
-                    new SqlParameter("@mday", this.Day),
-                    new SqlParameter("@mphone", this.Phone),
-                    new SqlParameter("@maddress", this.Address),
-                    new SqlParameter("@mother", this.Other),
-                    new SqlParameter("@mjoin", this.JoinDate),
-                    new SqlParameter("@midcard", this.IDCard)
+                    new MySqlParameter("@mid", this.ID),
+                    new MySqlParameter("@mname", this.Name),
+                    new MySqlParameter("@mstatus", this.Status),
+                    new MySqlParameter("@mcid", this.CardID),
+                    new MySqlParameter("@mpass", this.Password),
+                    new MySqlParameter("@mremark", this.Remark),
+                    new MySqlParameter("@msex", this.Sex),
+                    new MySqlParameter("@mmonth", this.Month),
+                    new MySqlParameter("@mday", this.Day),
+                    new MySqlParameter("@mphone", this.Phone),
+                    new MySqlParameter("@maddress", this.Address),
+                    new MySqlParameter("@mother", this.Other),
+                    new MySqlParameter("@mjoin", this.JoinDate),
+                    new MySqlParameter("@midcard", this.IDCard)
                 };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
@@ -473,7 +474,7 @@ namespace BHair.Business.BaseData
         public int UpdateStatus()
         {
             string strSql = "update member set mstatus=1,mremark=@Remark where mid=@ID";
-            SqlParameter[] cmdParameter = { new SqlParameter("@Remark", this.Remark), new SqlParameter("@ID", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@Remark", this.Remark), new MySqlParameter("@ID", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -487,15 +488,15 @@ namespace BHair.Business.BaseData
             //更新旧卡信息，停用旧卡
             string strSql1 = "update member set mstatus=1,mremark=@Remark where mid=@ID";
             oldmember.Remark = "换卡：新卡号" + newid;
-            SqlParameter[] cmdParameter1 = { new SqlParameter("@Remark", oldmember.Remark), new SqlParameter("@ID", oldmember.ID) };
+            MySqlParameter[] cmdParameter1 = { new MySqlParameter("@Remark", oldmember.Remark), new MySqlParameter("@ID", oldmember.ID) };
             string strSql2 = "insert into deposit(dmid,dmoney,ddate,dremark,dmode,dparentid) values(@dmid,@dmoney,@ddate,@dremark,1,0)";
-            SqlParameter[] cmdParameter2 = { new SqlParameter("@dmid", oldmember.ID), new SqlParameter("@dmoney", 0 - oldmember.Balance), new SqlParameter("@ddate", dtNow), new SqlParameter("@dremark", "换卡：转出到新卡号" + newid) };
+            MySqlParameter[] cmdParameter2 = { new MySqlParameter("@dmid", oldmember.ID), new MySqlParameter("@dmoney", 0 - oldmember.Balance), new MySqlParameter("@ddate", dtNow), new MySqlParameter("@dremark", "换卡：转出到新卡号" + newid) };
             //输入新卡信息
             Member newMember = oldmember;
             string strSql3 = "insert member(mid,mname,mstatus,mcid,mpass,mremark,msex,mmonth,mday,mphone,maddress,mother,mjoin,midcard) values(@mid,@mname,0,@mcid,@mpass,@mremark,@msex,@mmonth,@mday,@mphone,@maddress,@mother,@mjoin,@midcard)";
-            SqlParameter[] cmdParameter3 = { new SqlParameter("@mid", newid), new SqlParameter("@mname", newMember.Name), new SqlParameter("@mcid", newMember.CardID), new SqlParameter("@mpass", newMember.Password), new SqlParameter("@mremark", "换卡：旧卡号" + oldmember.ID), new SqlParameter("@msex", newMember.Sex), new SqlParameter("@mmonth", newMember.Month), new SqlParameter("@mday", newMember.Day), new SqlParameter("@mphone", newMember.Phone), new SqlParameter("@maddress", newMember.Address), new SqlParameter("@mother", newMember.Other), new SqlParameter("@mjoin", newMember.JoinDate), new SqlParameter("@midcard", newMember.IDCard) };
+            MySqlParameter[] cmdParameter3 = { new MySqlParameter("@mid", newid), new MySqlParameter("@mname", newMember.Name), new MySqlParameter("@mcid", newMember.CardID), new MySqlParameter("@mpass", newMember.Password), new MySqlParameter("@mremark", "换卡：旧卡号" + oldmember.ID), new MySqlParameter("@msex", newMember.Sex), new MySqlParameter("@mmonth", newMember.Month), new MySqlParameter("@mday", newMember.Day), new MySqlParameter("@mphone", newMember.Phone), new MySqlParameter("@maddress", newMember.Address), new MySqlParameter("@mother", newMember.Other), new MySqlParameter("@mjoin", newMember.JoinDate), new MySqlParameter("@midcard", newMember.IDCard) };
             string strSql4 = "insert into deposit(dmid,dmoney,ddate,dremark,dmode,dparentid) values(@dmid2,@dmoney2,@ddate2,@dremark2,2,0)";
-            SqlParameter[] cmdParameter4 = { new SqlParameter("@dmid2", newid), new SqlParameter("@dmoney2", oldmember.Balance), new SqlParameter("@ddate2", dtNow), new SqlParameter("@dremark2", "换卡：从旧卡号" + oldmember.ID + "转入") };
+            MySqlParameter[] cmdParameter4 = { new MySqlParameter("@dmid2", newid), new MySqlParameter("@dmoney2", oldmember.Balance), new MySqlParameter("@ddate2", dtNow), new MySqlParameter("@dremark2", "换卡：从旧卡号" + oldmember.ID + "转入") };
 
             string[] strSql = { strSql1, strSql2, strSql3, strSql4 };
             List<IDataParameter[]> lstParameter = new List<IDataParameter[]>();
@@ -526,7 +527,7 @@ namespace BHair.Business.BaseData
         public int UpdateLastTime(string memberid, DateTime lasttime)
         {
             string strSql = "update member set mlastime=@mlastime where mid=@mid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@mlastime", lasttime), new SqlParameter("@mid", memberid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@mlastime", lasttime), new MySqlParameter("@mid", memberid) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

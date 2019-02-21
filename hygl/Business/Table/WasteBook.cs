@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Text;
 using XLuSharpLibrary.DbAccess;
 using BHair.Business.BaseData;
+using MySql.Data.MySqlClient;
 
 namespace BHair.Business.Table
 {
@@ -128,15 +129,15 @@ namespace BHair.Business.Table
             string strSql = "select * from wastebook where 1=1";
             if (year > 0)
             {
-                strSql += " and datepart(year,wbdate)=" + year;
+                strSql += " and YEAR(wbdate)=" + year;
             }
             if (month > 0)
             {
-                strSql += " and datepart(month,wbdate)=" + month;
+                strSql += " and MONTH(wbdate)=" + month;
             }
             if (day > 0)
             {
-                strSql += " and datepart(day,wbdate)=" + day;
+                strSql += " and DAYOFMONTH(wbdate)=" + day;
             }
             strSql += " order by wbdate";
             DataTable objDataTable = StaticValue.SelectTable(strSql);
@@ -173,7 +174,7 @@ namespace BHair.Business.Table
         public int InsertWasteBook()
         {
             string strSql = "insert into wastebook(wbsid,wbincome,wbexpend,wbdate,wbremark,wbtype) values(@wbsid,@wbincome,@wbexpend,@wbdate,@wbremark,@wbtype)";//收入
-            SqlParameter[] cmdParameter = { new SqlParameter("@wbsid", this.SubjectID), new SqlParameter("@wbincome", this.Income), new SqlParameter("@wbexpend", this.Expend), new SqlParameter("@wbdate", this.Date), new SqlParameter("@wbremark", this.Remark), new SqlParameter("@wbtype", this.Type) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@wbsid", this.SubjectID), new MySqlParameter("@wbincome", this.Income), new MySqlParameter("@wbexpend", this.Expend), new MySqlParameter("@wbdate", this.Date), new MySqlParameter("@wbremark", this.Remark), new MySqlParameter("@wbtype", this.Type) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -182,7 +183,7 @@ namespace BHair.Business.Table
         public int UpdateExpend()
         {
             string strSql = "update wastebook set wbsid=@wbsid,wbincome=@wbincome,wbexpend=@wbexpend,wbdate=@wbdate,wbremark=@wbremark where wbid=@wbid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@wbsid", this.SubjectID), new SqlParameter("@wbincome", this.Income), new SqlParameter("@wbexpend", this.Expend), new SqlParameter("@wbdate", this.Date), new SqlParameter("@wbremark", this.Remark), new SqlParameter("@wbid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@wbsid", this.SubjectID), new MySqlParameter("@wbincome", this.Income), new MySqlParameter("@wbexpend", this.Expend), new MySqlParameter("@wbdate", this.Date), new MySqlParameter("@wbremark", this.Remark), new MySqlParameter("@wbid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -198,10 +199,10 @@ namespace BHair.Business.Table
         /// <summary>支出</summary>
         public decimal GetExpendMoney(int year, int month, int day)
         {
-            string strSql = "select sum(wbexpend) from wastebook where datepart(year,wbdate)=" + year + " and datepart(month,wbdate)=" + month + " and wbtype='e'";
+            string strSql = "select sum(wbexpend) from wastebook where YEAR(wbdate)=" + year + " and MONTH(wbdate)=" + month + " and wbtype='e'";
             if (day > 0)
             {
-                strSql += " and datepart(day,wbdate)=" + day;
+                strSql += " and DAYOFMONTH(wbdate)=" + day;
             }
             DataTable objTable = StaticValue.SelectTable(strSql);
             try
@@ -215,10 +216,10 @@ namespace BHair.Business.Table
         /// <summary>收入</summary>
         public decimal GetIncomeMoney(int year, int month, int day)
         {
-            string strSql = "select sum(wbincome) from wastebook where datepart(year,wbdate)=" + year + " and datepart(month,wbdate)=" + month + " and wbtype='i'";
+            string strSql = "select sum(wbincome) from wastebook where YEAR(wbdate)=" + year + " and MONTH(wbdate)=" + month + " and wbtype='i'";
             if (day > 0)
             {
-                strSql += " and datepart(day,wbdate)=" + day;
+                strSql += " and DAYOFMONTH(wbdate)=" + day;
             }
             DataTable objTable = StaticValue.SelectTable(strSql);
             try

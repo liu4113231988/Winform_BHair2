@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -312,7 +313,7 @@ namespace BHair.Business.BaseData
         public int InsertEmployee()
         {
             string strSql = "insert into employee(ecode,ename,esex,ephone,epid,esalary,ebonus,einput,estatus,eremark,eaddress,ecard,emobile) values(@ecode,@ename,@esex,@ephone,@epid,@esalary,@ebonus,@einput,@estatus,@eremark,@eaddress,@ecard,@emobile)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@ecode", this.Code), new SqlParameter("@ename", this.Name), new SqlParameter("@esex", this.Sex), new SqlParameter("@ephone", this.Phone), new SqlParameter("@epid", this.PostId), new SqlParameter("@esalary", this.Salary), new SqlParameter("@ebonus", this.Bonus), new SqlParameter("@einput", this.Input), new SqlParameter("@estatus", this.Status), new SqlParameter("@eremark", this.Remark), new SqlParameter("@eaddress", this.Address), new SqlParameter("@ecard", this.CardNumber), new SqlParameter("@emobile", this.Mobile) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@ecode", this.Code), new MySqlParameter("@ename", this.Name), new MySqlParameter("@esex", this.Sex), new MySqlParameter("@ephone", this.Phone), new MySqlParameter("@epid", this.PostId), new MySqlParameter("@esalary", this.Salary), new MySqlParameter("@ebonus", this.Bonus), new MySqlParameter("@einput", this.Input), new MySqlParameter("@estatus", this.Status), new MySqlParameter("@eremark", this.Remark), new MySqlParameter("@eaddress", this.Address), new MySqlParameter("@ecard", this.CardNumber), new MySqlParameter("@emobile", this.Mobile) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -321,7 +322,7 @@ namespace BHair.Business.BaseData
         public int UpdateEmployee()
         {
             string strSql = "update employee set ecode=@ecode,ename=@ename,esex=@esex,ephone=@ephone,epid=@epid,esalary=@esalary,ebonus=@ebonus,einput=@einput,eoutput=@eoutput,estatus=@estatus,eremark=@eremark,eaddress=@eaddress,ecard=@ecard,emobile=@emobile where eid=@eid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@ecode", this.Code), new SqlParameter("@ename", this.Name), new SqlParameter("@esex", this.Sex), new SqlParameter("@ephone", this.Phone), new SqlParameter("@epid", this.PostId), new SqlParameter("@esalary", this.Salary), new SqlParameter("@ebonus", this.Bonus), new SqlParameter("@einput", this.Input), new SqlParameter("@eoutput", this.Output), new SqlParameter("@estatus", this.Status), new SqlParameter("@eremark", this.Remark), new SqlParameter("@eaddress", this.Address), new SqlParameter("@ecard", this.CardNumber), new SqlParameter("@emobile", this.Mobile), new SqlParameter("@eid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@ecode", this.Code), new MySqlParameter("@ename", this.Name), new MySqlParameter("@esex", this.Sex), new MySqlParameter("@ephone", this.Phone), new MySqlParameter("@epid", this.PostId), new MySqlParameter("@esalary", this.Salary), new MySqlParameter("@ebonus", this.Bonus), new MySqlParameter("@einput", this.Input), new MySqlParameter("@eoutput", this.Output), new MySqlParameter("@estatus", this.Status), new MySqlParameter("@eremark", this.Remark), new MySqlParameter("@eaddress", this.Address), new MySqlParameter("@ecard", this.CardNumber), new MySqlParameter("@emobile", this.Mobile), new MySqlParameter("@eid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

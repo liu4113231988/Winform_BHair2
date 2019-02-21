@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -296,7 +297,7 @@ namespace BHair.Business.BaseData
         public int InsertSPItems()
         {
             string strSql = "insert into items(iname,ifprice,iuprice,inprice,iamount,imoney,icmoney,itype,iconvert,ireadme,istatus,isbonus,isticheng) values(@iname,@ifprice,@iuprice,@inprice,@iamount,@imoney,@icmoney,@itype,@iconvert,@ireadme,@istatus,@isbonus,@ticheng)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@iname", this.Name), new SqlParameter("@ifprice", this.FatPrice), new SqlParameter("@iuprice", this.UnitPrice), new SqlParameter("@inprice", this.NumPrice), new SqlParameter("@iamount", this.Amount), new SqlParameter("@imoney", this.BonusMoney), new SqlParameter("@icmoney", this.CallBonusMoney), new SqlParameter("@itype", this.Type), new SqlParameter("@iconvert", this.Convert), new SqlParameter("@ireadme", this.Readme), new SqlParameter("@istatus", this.Status), new SqlParameter("@isbonus", this.IsBonus), new SqlParameter("@ticheng", this.IsTiCheng) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@iname", this.Name), new MySqlParameter("@ifprice", this.FatPrice), new MySqlParameter("@iuprice", this.UnitPrice), new MySqlParameter("@inprice", this.NumPrice), new MySqlParameter("@iamount", this.Amount), new MySqlParameter("@imoney", this.BonusMoney), new MySqlParameter("@icmoney", this.CallBonusMoney), new MySqlParameter("@itype", this.Type), new MySqlParameter("@iconvert", this.Convert), new MySqlParameter("@ireadme", this.Readme), new MySqlParameter("@istatus", this.Status), new MySqlParameter("@isbonus", this.IsBonus), new MySqlParameter("@ticheng", this.IsTiCheng) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -305,7 +306,7 @@ namespace BHair.Business.BaseData
         public int UpdateSPItems()
         {
             string strSql = "update items set iname=@iname,ifprice=@ifprice,iuprice=@iuprice,inprice=@inprice,iamount=@iamount,imoney=@imoney,icmoney=@icmoney,itype=@itype,iconvert=@iconvert,ireadme=@ireadme,istatus=@istatus,isbonus=@isbonus,isticheng=@ticheng where iid=@iid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@iname", this.Name), new SqlParameter("@ifprice", this.FatPrice), new SqlParameter("@iuprice", this.UnitPrice), new SqlParameter("@inprice", this.NumPrice), new SqlParameter("@iamount", this.Amount), new SqlParameter("@imoney", this.BonusMoney), new SqlParameter("@icmoney", this.CallBonusMoney), new SqlParameter("@itype", this.Type), new SqlParameter("@iconvert", this.Convert), new SqlParameter("@ireadme", this.Readme), new SqlParameter("@istatus", this.Status), new SqlParameter("@isbonus", this.IsBonus), new SqlParameter("@iid", this.ID), new SqlParameter("@ticheng", this.IsTiCheng) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@iname", this.Name), new MySqlParameter("@ifprice", this.FatPrice), new MySqlParameter("@iuprice", this.UnitPrice), new MySqlParameter("@inprice", this.NumPrice), new MySqlParameter("@iamount", this.Amount), new MySqlParameter("@imoney", this.BonusMoney), new MySqlParameter("@icmoney", this.CallBonusMoney), new MySqlParameter("@itype", this.Type), new MySqlParameter("@iconvert", this.Convert), new MySqlParameter("@ireadme", this.Readme), new MySqlParameter("@istatus", this.Status), new MySqlParameter("@isbonus", this.IsBonus), new MySqlParameter("@iid", this.ID), new MySqlParameter("@ticheng", this.IsTiCheng) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -314,7 +315,7 @@ namespace BHair.Business.BaseData
         public int DownSPItems()
         {
             string strSql = "update items set istatus=@istatus where iid=@iid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@istatus", this.Status), new SqlParameter("@iid", this.ID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@istatus", this.Status), new MySqlParameter("@iid", this.ID) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

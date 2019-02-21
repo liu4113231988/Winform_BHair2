@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace XLuSharpLibrary.CommonFunction
 {
-   public class NumericClass
+    public class NumericClass
     {
         public static bool IsNumber(string strtext)
         {

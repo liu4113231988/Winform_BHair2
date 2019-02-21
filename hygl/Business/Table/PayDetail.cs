@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using BHair.Business.BaseData;
+using MySql.Data.MySqlClient;
 using XLuSharpLibrary.DbAccess;
 
 namespace BHair.Business.Table
@@ -171,7 +172,7 @@ namespace BHair.Business.Table
         public int InsertDetail()
         {
             string strSql = "insert into paydetails(pdpid,pdiid,pdnum,pbonus,pmoney) values(@pdpid,@pdiid,@pdnum,@pbonus,@pmoney)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pdpid", this.PayID), new SqlParameter("@pdiid", this.ItemID), new SqlParameter("@pdnum", this.Number), new SqlParameter("@pbonus", this.Bonus), new SqlParameter("@pmoney", this.Money) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pdpid", this.PayID), new MySqlParameter("@pdiid", this.ItemID), new MySqlParameter("@pdnum", this.Number), new MySqlParameter("@pbonus", this.Bonus), new MySqlParameter("@pmoney", this.Money) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -199,7 +200,7 @@ namespace BHair.Business.Table
         public int UpdateDetail(string payid, int itemid)
         {
             string strSql = "update paydetails set pdnum=@pdnum,pbonus=@pbonus,pmoney=@pmoney where pdpid=@pdpid and pdiid=@pdiid";
-            SqlParameter[] cmdParameter = { new SqlParameter("@pdnum", this.Number), new SqlParameter("@pbonus", this.Bonus), new SqlParameter("@pmoney", this.Money), new SqlParameter("@pdpid", payid), new SqlParameter("@pdiid", itemid) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@pdnum", this.Number), new MySqlParameter("@pbonus", this.Bonus), new MySqlParameter("@pmoney", this.Money), new MySqlParameter("@pdpid", payid), new MySqlParameter("@pdiid", itemid) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -129,7 +130,7 @@ namespace BHair.Business
         {
             SystemConfig objConfig = new SystemConfig(index);
             string strSql = "insert sysconfig values(@varindex,@varname,@vartype,@varvalue,@varinfo)";
-            SqlParameter[] cmdParameter = { new SqlParameter("@varindex", objConfig.VarIndex), new SqlParameter("@varname", objConfig.VarName), new SqlParameter("@vartype", objConfig.VarType), new SqlParameter("@varvalue", objConfig.VarValue), new SqlParameter("@varinfo", objConfig.VarInfo) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@varindex", objConfig.VarIndex), new MySqlParameter("@varname", objConfig.VarName), new MySqlParameter("@vartype", objConfig.VarType), new MySqlParameter("@varvalue", objConfig.VarValue), new MySqlParameter("@varinfo", objConfig.VarInfo) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 
@@ -152,7 +153,7 @@ namespace BHair.Business
         public int UpdateValue()
         {
             string strSql = "update sysconfig set varvalue=@varvalue where varname=@varname";
-            SqlParameter[] cmdParameter = { new SqlParameter("@varvalue", this.VarValue), new SqlParameter("@varname", this.VarName) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@varvalue", this.VarValue), new MySqlParameter("@varname", this.VarName) };
             return new SQLHelper().ExecuteSql(strSql, cmdParameter);
         }
 

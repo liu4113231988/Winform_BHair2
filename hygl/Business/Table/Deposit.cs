@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using BHair.Business.BaseData;
+using MySql.Data.MySqlClient;
 using XLuSharpLibrary.DbAccess;
 
 namespace BHair.Business.Table
@@ -153,7 +154,7 @@ namespace BHair.Business.Table
         public string InsertDeposit()
         {
             string strSql = "insert into deposit(dmid,dmoney,ddate,dremark,dmode,dparentid) values(@dmid,@dmoney,@ddate,@dremark,@dmode,@dparentid); select @@identity";
-            SqlParameter[] cmdParameter = { new SqlParameter("@dmid", this.MemberID), new SqlParameter("@dmoney", this.Money), new SqlParameter("@ddate", this.Date), new SqlParameter("@dremark", this.Remark), new SqlParameter("@dmode", this.Mode), new SqlParameter("@dparentid", this.ParentID) };
+            MySqlParameter[] cmdParameter = { new MySqlParameter("@dmid", this.MemberID), new MySqlParameter("@dmoney", this.Money), new MySqlParameter("@ddate", this.Date), new MySqlParameter("@dremark", this.Remark), new MySqlParameter("@dmode", this.Mode), new MySqlParameter("@dparentid", this.ParentID) };
             DataTable objDataTable = new DataTable();
             try
             {
@@ -210,15 +211,15 @@ namespace BHair.Business.Table
             }
             if (year > 0)
             {
-                strSql += " and datepart(year,ddate)=" + year;
+                strSql += " and year(ddate)=" + year;
             }
             if (month > 0)
             {
-                strSql += " and datepart(month,ddate)=" + month;
+                strSql += " and month(ddate)=" + month;
             }
             if (day > 0)
             {
-                strSql += " and datepart(day,ddate)=" + day;
+                strSql += " and DAYOFMONTH(ddate)=" + day;
             }
             DataTable objDataTable = StaticValue.SelectTable(strSql);
             List<Deposit> lstDeposit = new List<Deposit>();
@@ -272,15 +273,15 @@ namespace BHair.Business.Table
             string strSql = "select sum(dmoney) from deposit where dmode=0";
             if (year > 0)
             {
-                strSql += " and datepart(year,ddate)=" + year;
+                strSql += " and year(ddate)=" + year;
             }
             if (month > 0)
             {
-                strSql += " and datepart(month,ddate)=" + month;
+                strSql += " and month(ddate)=" + month;
             }
             if (day > 0)
             {
-                strSql += " and datepart(day,ddate)=" + day;
+                strSql += " and DAYOFMONTH(ddate)=" + day;
             }
             DataTable objDataTable = StaticValue.SelectTable(strSql);
             try
