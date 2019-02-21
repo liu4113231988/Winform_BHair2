@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using XLuSharpLibrary.DbAccess;
 
 namespace BHair.Business.BaseData

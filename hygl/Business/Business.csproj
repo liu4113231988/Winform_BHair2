@@ -44,10 +44,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="XLuSharpLibrary, Version=1.2.4368.24409, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\DLL\XLuSharpLibrary.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\Card.cs" />
@@ -66,6 +62,12 @@
     <Compile Include="Table\Pays.cs" />
     <Compile Include="Table\SalaryTable.cs" />
     <Compile Include="Table\WasteBook.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XLuSharpLibrary\XLuSharpLibrary.csproj">
+      <Project>{f7eefa21-9fb8-4634-90dd-7294c4db2e50}</Project>
+      <Name>XLuSharpLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

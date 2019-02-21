@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BHair", "BHair\BHair.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{778265EE-4F26-4739-A390-AE5510CF9C81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HairDAL", "HairDAL\HairDAL.csproj", "{30C0BB78-BF8F-4A74-A9F1-A80D72919D4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XLuSharpLibrary", "XLuSharpLibrary\XLuSharpLibrary.csproj", "{F7EEFA21-9FB8-4634-90DD-7294C4DB2E50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{778265EE-4F26-4739-A390-AE5510CF9C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{778265EE-4F26-4739-A390-AE5510CF9C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{778265EE-4F26-4739-A390-AE5510CF9C81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{30C0BB78-BF8F-4A74-A9F1-A80D72919D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30C0BB78-BF8F-4A74-A9F1-A80D72919D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30C0BB78-BF8F-4A74-A9F1-A80D72919D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30C0BB78-BF8F-4A74-A9F1-A80D72919D4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7EEFA21-9FB8-4634-90DD-7294C4DB2E50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7EEFA21-9FB8-4634-90DD-7294C4DB2E50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7EEFA21-9FB8-4634-90DD-7294C4DB2E50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7EEFA21-9FB8-4634-90DD-7294C4DB2E50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

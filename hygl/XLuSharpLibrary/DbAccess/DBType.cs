@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HairDAL
+namespace XLuSharpLibrary.DbAccess
 {
-    public class MySqlHelper
+   public enum DBType
     {
+        SQLServer,
+        Access,
+        Mysql
     }
 }
